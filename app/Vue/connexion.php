@@ -36,11 +36,12 @@ session_start();
 
         <?php
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
-            $servername = "docker-lamp-mysql";
+            $servername = "localhost";
             $username = "root";
-            $password = "p@ssw0rd";
+            $password = "1234";
             $dbname = 'users_management';
             $conn = null;
+    
 
             /*
              * Création du hash du password qui sera sauvegardé en BDD. On ne sauvegarde jamais les password en clair
@@ -69,10 +70,17 @@ session_start();
                 }
 
                 if (password_verify($userPassword, $dbhash)) {
-                    echo "Connecté";
+                    // Authentification réussie
                     $_SESSION['authentified'] = true;
-                    header('location: connexion.php');
+                    header('location: ../../index.php'); // Redirigez vers la page du tableau de bord après une connexion réussie
+                    exit();
+                } else {
+                    // Authentification échouée
+                    $_SESSION['authentified'] = false;
+                    header('location: login.php?error=1'); // Redirigez vers la page de connexion avec un message d'erreur
+                    exit();
                 }
+
             } catch (PDOException $e) {
                 echo $e->getMessage();
             }

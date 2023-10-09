@@ -26,9 +26,9 @@ session_start();
     <?php
     if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
-        $servername = "docker-lamp-mysql";
+        $servername = "localhost";
         $username = "root";
-        $password = "p@ssw0rd";
+        $password = "1234";
         $dbname = 'users_management';
         $conn = null;
 
