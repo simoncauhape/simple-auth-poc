@@ -1,15 +1,18 @@
 <?php
 session_start();
-
-// Vérifiez si l'utilisateur est authentifié et a le groupe d'administrateurs (groupe ID = 1)
-if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_group']) || $_SESSION['user_group'] !== 1) {
-    header('Content-Type: application/json');
-    echo json_encode(array('error' => 'acces refuse'));
-    exit();
+var_dump($_SESSION);
+// Avant d'accéder aux informations de l'utilisateur
+if (isset($_SESSION['authentified']) && $_SESSION['authentified'] === true) {
+    $user_data = unserialize($_SESSION['user_data']);
+    $user_id = $user_data['user_id'];
+    $user_group = $user_data['user_group'];
+    
+    // Maintenant, vous avez accès aux informations de l'utilisateur ($user_id et $user_group)
+} else {
+    // L'utilisateur n'est pas authentifié
+    // Gérer la redirection ou l'affichage d'un message d'erreur
 }
 
-header('Content-Type: application/json');
-echo json_encode($_SESSION);
 
 ?>
 <!DOCTYPE html>
@@ -24,7 +27,7 @@ echo json_encode($_SESSION);
     $host = 'localhost'; 
     $dbname = 'users_management'; 
     $username = 'root'; 
-    $password = '1234'; 
+    $password = ''; 
 
     try {
         

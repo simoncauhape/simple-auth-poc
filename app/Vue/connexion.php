@@ -38,7 +38,7 @@ session_start();
         if (!empty($_POST['email']) && !empty($_POST['password'])) {
             $servername = "localhost";
             $username = "root";
-            $password = "1234";
+            $password = "";
             $dbname = 'users_management';
             $conn = null;
     
@@ -69,17 +69,26 @@ session_start();
                     $dbhash = $stt->fetch()['password_hash'];
                 }
 
+               // Après avoir vérifié le mot de passe
                 if (password_verify($userPassword, $dbhash)) {
                     // Authentification réussie
+                    $user_data = array(
+                        'user_id' => $userId,
+                        'user_group' => $userGroup
+                    );
+
                     $_SESSION['authentified'] = true;
-                    header('location: ../../index.php'); // Redirigez vers la page du tableau de bord après une connexion réussie
+                    $_SESSION['user_data'] = serialize($user_data);
+
+                    header('location: ../../index.php');
                     exit();
                 } else {
                     // Authentification échouée
                     $_SESSION['authentified'] = false;
-                    header('location: login.php?error=1'); // Redirigez vers la page de connexion avec un message d'erreur
+                    header('location: login.php?error=1');
                     exit();
                 }
+
 
             } catch (PDOException $e) {
                 echo $e->getMessage();

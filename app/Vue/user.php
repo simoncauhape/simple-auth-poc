@@ -28,7 +28,7 @@ session_start();
 
         $servername = "localhost";
         $username = "root";
-        $password = "1234";
+        $password = "";
         $dbname = 'users_management';
         $conn = null;
 
